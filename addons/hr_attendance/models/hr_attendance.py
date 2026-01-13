@@ -101,7 +101,7 @@ class HrAttendance(models.Model):
             else:
                 attendance.color = 1 if attendance.check_in < (datetime.today() - timedelta(days=1)) else 10
 
-    @api.depends('check_in', 'check_out', 'employee_id')
+    @api.depends('linked_overtime_ids.status')
     def _compute_overtime_status(self):
         for attendance in self:
             if not attendance.linked_overtime_ids:

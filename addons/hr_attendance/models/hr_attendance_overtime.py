@@ -94,15 +94,3 @@ class HrAttendanceOvertimeLine(models.Model):
             ('employee_id', 'in', self.employee_id.ids),
         ])
 
-    def write(self, vals):
-        if any(key in vals for key in ['status', 'manual_duration']):
-            attendances = self._linked_attendances()
-            self.env.add_to_compute(
-                 attendances._fields['overtime_status'],
-                 attendances
-            )
-            self.env.add_to_compute(
-                 attendances._fields['validated_overtime_hours'],
-                 attendances
-            )
-        return super().write(vals)
